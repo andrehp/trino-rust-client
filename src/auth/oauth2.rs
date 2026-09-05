@@ -242,9 +242,11 @@ mod tests {
         assert_eq!(state.cached_token().as_deref(), Some("tok"));
     }
 
+    #[cfg(any(feature = "rustls-aws-lc-rs", feature = "rustls-ring"))]
     struct RecordingHandler {
         seen: std::sync::Mutex<Vec<String>>,
     }
+    #[cfg(any(feature = "rustls-aws-lc-rs", feature = "rustls-ring"))]
     impl RedirectHandler for RecordingHandler {
         fn redirect(&self, url: &str) -> Result<()> {
             self.seen.lock().unwrap().push(url.to_string());
@@ -252,6 +254,7 @@ mod tests {
         }
     }
 
+    #[cfg(any(feature = "rustls-aws-lc-rs", feature = "rustls-ring"))]
     #[tokio::test]
     async fn run_flow_follows_next_uri_then_returns_token() {
         use wiremock::matchers::{method, path};
@@ -295,6 +298,7 @@ mod tests {
         );
     }
 
+    #[cfg(any(feature = "rustls-aws-lc-rs", feature = "rustls-ring"))]
     #[tokio::test]
     async fn run_flow_surfaces_error_field() {
         use wiremock::matchers::{method, path};
@@ -328,6 +332,7 @@ mod tests {
         }
     }
 
+    #[cfg(any(feature = "rustls-aws-lc-rs", feature = "rustls-ring"))]
     #[tokio::test]
     async fn run_flow_bounded_by_poll_timeout_when_server_stalls() {
         use wiremock::matchers::{method, path};
